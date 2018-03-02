@@ -3,22 +3,24 @@ object MaxPairWise {
     val inputNumber = scala.io.StdIn.readInt
     val input = scala.io.StdIn.readLine().split(" ").map(x=>x.toLong)
     if (input.size < 2) {
-    	println("Abnormal size, exitting")
-    	System.exit(0)
+        println("Abnormal size, exitting")
+        System.exit(0)
     }
-    var maxI:Long=0
-    var maxI2:Long=0
+    var maxI:Int=0
+    var maxI2:Int=0
 
 
-    for (i<- input) {
-    	if (i>maxI) maxI=i 
-    }
-
-    for (i<- input) {
-    	if (i>maxI2 && i!=maxI) maxI2=i
+    for (i<- input.indices) {
+        if (input(i)>input(maxI)) maxI=i 
     }
 
-    println(s"${maxI*maxI2}")
+    if (maxI==0) maxI2=1 else maxI2=0
+
+    for (i<- input.indices) {
+    	if (i!=maxI && input(i)>input(maxI2)) maxI2=i
+    }
+    
+    println(s"${input(maxI)*input(maxI2)}")
   }
 
 }
