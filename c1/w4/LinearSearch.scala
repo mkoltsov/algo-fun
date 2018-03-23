@@ -1,4 +1,4 @@
-object AplusB {
+object LinearSearch {
   def main(args: Array[String]) {
     val input = scala.io.StdIn.readLine().split(" ").map(x=>x.toInt)
     val key= scala.io.StdIn.readInt()
