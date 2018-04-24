@@ -6,36 +6,29 @@ object QuickSort {
     print(s"final ${printArr(mergeSort(input))}")
   }
 
-  def quickSort(arr:Array[Int]): Array[Int] = {
-    if (arr.size==1)   return arr
+  def quickSort(arr:Array[Int], l: Int, r: Int): Array[Int] = {
+    if (l>=r)   return 
 
-    val m = arr.size/2
-    
-    val halfs = arr.splitAt(m) 
-    val b = mergeSort(halfs._1)
-    val c = mergeSort(halfs._2)
-    merge(b,c)
+    val m = partitition(arr, l, r)
+
+    quickSort(arr,l, m-1)
+    quickSort(arr,m+1, r)
 }
 
 def printArr(a:Array[Int]):String = a.deep.mkString(sep)
 
-def partitition(arr1:Array[Int], arr2:Array[Int]): Array[Int] = {
+def partitition(arr1:Array[Int], l:Int, r: Int): Array[Int] = {
   // var d = Array.fill[Int](arr1.size+arr2.size)(0)
-  var d = Array[Int]()
+  val x = arr1(l)
+  var j=l
  
-  while (arr1.filter(_ != -1).nonEmpty && arr2.filter(_ != -1).nonEmpty) {
-    val b = arr1.filter(_ != -1).head
-    val c = arr2.filter(_ != -1).head
-
-    if (b<=c) {
-      d = d:+b
-      arr1(arr1.indexOf(b)) = -1
-    } else {
-      d = d:+c
-      arr2(arr2.indexOf(c)) = -1
+  for (i <-l+1 to r ) {
+    if (arr1(i)=< x) {
+      j+=1
+      swap(arr1(j), arr1(i))
     }
   }
-  
-  d ++ arr1.filter(_ != -1) ++ arr2.filter(_ != -1) 
-}
+
+ swap(arr1(l), arr1(j))
+ return j
 }
