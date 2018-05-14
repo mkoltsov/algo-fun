@@ -45,6 +45,7 @@ class check_brackets {
                 Bracket top = opening_brackets_stack.pop();
                 if (!top.Match(next)) {
                     System.out.println(top.position);
+                    return
                 } 
                 // Process closing bracket, write your code here
             }
