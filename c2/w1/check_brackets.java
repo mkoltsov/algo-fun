@@ -32,25 +32,32 @@ class check_brackets {
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
-
+            System.out.println(next);
             if (next == '(' || next == '[' || next == '{') {
+                System.out.println("pushed "+next);
                 opening_brackets_stack.push(new Bracket(next, position));
             }
 
             if (next == ')' || next == ']' || next == '}') {
                 if (opening_brackets_stack.isEmpty()) {
-                    System.out.println("failure");
+                    System.out.println(position);
                     return;
                 }
+
                 Bracket top = opening_brackets_stack.pop();
                 if (!top.Match(next)) {
                     System.out.println(top.position);
-                    return
+                    return;
                 } 
                 // Process closing bracket, write your code here
             }
         }
+
+        if (!opening_brackets_stack.isEmpty()) {
+           System.out.println(text.length());     
+        } else {
         System.out.println("SUCCESS");
+        }
         // Printing answer, write your code here
     }
 }
