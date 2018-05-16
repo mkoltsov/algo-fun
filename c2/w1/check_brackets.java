@@ -56,7 +56,7 @@ class check_brackets {
            System.out.println(top.position+1);
            return;     
         } 
-        System.out.println("SUCCESS");
+        System.out.println("Success");
         
     }
 }
