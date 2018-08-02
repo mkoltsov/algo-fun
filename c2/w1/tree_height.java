@@ -101,7 +101,7 @@ public class tree_height {
 		tree.read();
 		System.out.println("root " + tree.root);
 		// System.out.println("nodes "+ Arrays.toString(tree.nodes));
-		// tree.nodes.forEach(name -> System.out.println(name));
+		tree.nodes.forEach(name -> System.out.println(name));
 		// System.out.println("nodes "+ Arrays.toString(tree.nodes));
 		System.out.println(tree.computeHeight());
 	}
