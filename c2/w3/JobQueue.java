@@ -1,5 +1,8 @@
 import java.io.*;
 import java.util.StringTokenizer;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Comparator;
 
 public class JobQueue {
     private int numWorkers;
@@ -30,21 +33,43 @@ public class JobQueue {
         }
     }
 
+    class Worker {
+        int id;
+        int nextFreeTime;
+        public Worker(int id) {
+            this.id=id;
+            this.nextFreeTime=0;
+        }
+    }
+
     private void assignJobs() {
         // TODO: replace this code with a faster algorithm.
         assignedWorker = new int[jobs.length];
         startTime = new long[jobs.length];
-        long[] nextFreeTime = new long[numWorkers];
+        Queue<Worker> pq = new PriorityQueue<>(numWorkers, new Comparator<Worker>() {
+                @Override
+            public int compare (Worker w1, Worker w2) {
+                return w1.nextFreeTime==w2.nextFreeTime ? w1.id-w2.id : (int) (w1.nextFreeTime - w2.nextFreeTime);
+            }
+
+        });
+        for (int i=0; i < numWorkers; i++) {
+            pq.add(new Worker(i));
+        }
+        // long[] nextFreeTime = new long[numWorkers];
         for (int i = 0; i < jobs.length; i++) {
             int duration = jobs[i];
-            int bestWorker = 0;
-            for (int j = 0; j < numWorkers; ++j) {
-                if (nextFreeTime[j] < nextFreeTime[bestWorker])
-                    bestWorker = j;
-            }
-            assignedWorker[i] = bestWorker;
-            startTime[i] = nextFreeTime[bestWorker];
-            nextFreeTime[bestWorker] += duration;
+            Worker availableWorker= pq.poll();
+            // int bestWorker = availableWorker.id;
+            // for (int j = 0; j < numWorkers; ++j) {
+                // if (nextFreeTime[j] < nextFreeTime[bestWorker])
+                    // bestWorker = j;
+            // }
+            assignedWorker[i] = availableWorker.id;
+            startTime[i] = availableWorker.nextFreeTime;
+            availableWorker.nextFreeTime+=duration;
+            pq.add(availableWorker);
+            // nextFreeTime[bestWorker] += duration;
         }
     }
 

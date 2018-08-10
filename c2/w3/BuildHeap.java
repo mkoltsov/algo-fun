@@ -91,10 +91,10 @@ public class BuildHeap {
         }
 
         int extract(){
-            int result=data[1];
-            data[1]=data2[this.size];
+            int result=data[0];
+            data[0]=data2[this.size];
             this.size--;
-            siftDown(1);
+            siftDown(0);
             return result;
         }
 

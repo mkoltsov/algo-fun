@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class tree_height {
+public class tree_height_new {
     class FastScanner {
 		StringTokenizer tok = new StringTokenizer("");
 		BufferedReader in;
@@ -34,6 +34,7 @@ public class tree_height {
 			for (int i = 0; i < n; i++) {
 				parent[i] = in.nextInt();
 			}
+			this.size=parent.length;
 		}
 
 		int parent(int i) {
@@ -57,15 +58,52 @@ public class tree_height {
 		}
 
 		void siftUp(int i) {
-			while (int i>1 && parent(i) < parent[i]) {
-				swap (parent(i) < parent[i]);
+			while (i>1 && parent(i) < parent[i]) {
+				swap (parent(i), parent[i]);
 				i=parent(i);
 			}
 		}
 
 		void siftDown(int i) {
 			int maxIndex=i;
+			int l = leftChild(i);
 
+			if (l<= this.size && parent[l]>parent[maxIndex]) {
+				maxIndex=l;	
+			}
+
+			int r=rightChild(i);
+			if (r<= this.size && parent[r]>parent[maxIndex]) {
+				maxIndex=r;	
+			}
+
+			if (i!=maxIndex) {
+				swap(i, maxIndex);
+				siftDown(maxIndex);
+			}
+		}
+
+		void insert(int p ){
+			if (this.size==this.maxSize) {
+				throw new RuntimeException();
+			}
+			this.size++;
+			parent[this.size]=p;
+			siftUp(size);	
+		}
+
+		int extract(){
+			int result=parent[1];
+			parent[1]=parent[this.size];
+			this.size--;
+			siftDown(1);
+			return result;
+		}
+
+		void remove(int i) {
+			parent[i]=Integer.MAX_VALUE;
+			siftUp(i);
+			extract();
 		}
 
 		int computeHeight() {
