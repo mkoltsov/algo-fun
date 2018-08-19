@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
+import java.util.Map;
+import java.util.HashMap;
 public class PhoneBook {
 
     private FastScanner in = new FastScanner();
     // Keep list of all existing (i.e. not deleted yet) contacts.
-    private List<Contact> contacts = new ArrayList<>();
+    private Map<Integer, String> contacts = new HashMap<>();
 
     public static void main(String[] args) {
         new PhoneBook().processQueries();
@@ -37,30 +38,38 @@ public class PhoneBook {
         if (query.type.equals("add")) {
             // if we already have contact with such number,
             // we should rewrite contact's name
-            boolean wasFound = false;
-            for (Contact contact : contacts)
-                if (contact.number == query.number) {
-                    contact.name = query.name;
-                    wasFound = true;
-                    break;
-                }
+            // boolean wasFound = false;
+            // if (contacts.get(query.number) != null) {
+                // contacts.put(query.number, query.name);
+            // } else {
+                // contacts.put(query.number, query.name);
+            // }
+            // for (Contact contact : contacts)
+                // if (contact.number == query.number) {
+                    // contact.name = query.name;
+                    // wasFound = true;
+                    // break;
+                // }
             // otherwise, just add it
-            if (!wasFound)
-                contacts.add(new Contact(query.name, query.number));
+            // if (!wasFound)
+                // contacts.add(new Contact(query.name, query.number));
+                contacts.put(query.number, query.name);
         } else if (query.type.equals("del")) {
-            for (Iterator<Contact> it = contacts.iterator(); it.hasNext(); )
-                if (it.next().number == query.number) {
-                    it.remove();
-                    break;
-                }
+            contacts.remove(query.number);
+            // for (Iterator<Contact> it = contacts.iterator(); it.hasNext(); )
+            //     if (it.next().number == query.number) {
+            //         it.remove();
+            //         break;
+            //     }
         } else {
-            String response = "not found";
-            for (Contact contact: contacts)
-                if (contact.number == query.number) {
-                    response = contact.name;
-                    break;
-                }
-            writeResponse(response);
+            // String response = "not found";
+            contacts.get(query.number);
+            // for (Contact contact: contacts)
+            //     if (contact.number == query.number) {
+            //         response = contact.name;
+            //         break;
+            //     }
+            writeResponse(contacts.get(query.number) == null ? "not found" : contacts.get(query.number));
         }
     }
 
