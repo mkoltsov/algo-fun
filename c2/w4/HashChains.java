@@ -10,10 +10,13 @@ public class HashChains {
     private PrintWriter out;
     // store all strings in one list
     private List<String> elems;
+    private List<Integer> hashes = new ArrayList<>();
+    private List<LinkedList<String>> values = new ArrayList<>();
     // for hash function
     private int bucketCount;
     private int prime = 1000000007;
     private int multiplier = 263;
+    private int i=0;
 
     public static void main(String[] args) throws IOException {
         new HashChains().processQueries();
@@ -42,12 +45,22 @@ public class HashChains {
         // Uncomment the following if you want to play with the program interactively.
         // out.flush();
     }
-
+  
     private void processQuery(Query query) {
+        
         switch (query.type) {
             case "add":
-                if (!elems.contains(query.s))
-                    elems.add(0, query.s);
+            int hash = hashFunc(query.s);
+            if (!hashes.contains(hash) && !values.contains(query.s)) {
+                hashes.add(i, hash);
+                if (values.get(i)==null) {
+                    LinkedList<String> ll = new LinkedList<>();
+                    ll.add(query.s);
+                    values.add(i, ll)
+                } else {
+                    values.get(i).add(query.s);
+                }
+            }             
                 break;
             case "del":
                 if (elems.contains(query.s))
@@ -68,6 +81,7 @@ public class HashChains {
                 throw new RuntimeException("Unknown query: " + query.type);
         }
     }
+
 
     public void processQueries() throws IOException {
         elems = new ArrayList<>();
